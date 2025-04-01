@@ -4,10 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "test": "react-scripts test"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
@@ -34,3 +33,4 @@
     "vite": "^6.0.5"
   }
 }
+
