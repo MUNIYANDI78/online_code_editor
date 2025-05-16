@@ -1,0 +1,61 @@
+const express = require('express');
+const router = express.Router();
+
+const challenges = [
+  { id: 1, title: "Reverse a String", description: "Write a Python function that takes a string as input and returns the reversed version of the string.", code: `def reverse_string(s): \n  # Your code here` },
+  { id: 2, title: "Factorial of a Number", description: "Write a Python function that calculates the factorial of a given non-negative integer.", code: `def factorial(n): \n  # Your code here` },
+  { id: 3, title: "Check for Palindrome", description: "Write a Python function that checks if a given string is a palindrome (reads the same forwards and backward).", code: `def is_palindrome(s): \n  # Your code here` },
+  { id: 4, title: "Find the Largest Element in a List", description: "Write a Python function that takes a list of numbers as input and returns the largest number in the list.", code: `def find_largest(numbers): \n  # Your code here` },
+  { id: 5, title: "Remove Duplicates from a List", description: "Write a Python function that takes a list and returns a new list with all duplicate elements removed.", code: `def remove_duplicates(lst): \n  # Your code here` },
+  { id: 6, title: "Count Occurrences of a Character", description: "Write a Python function that takes a string and a character as input and returns the number of times the character appears in the string.", code: `def count_char(s, char): \n  # Your code here` },
+  { id: 7, title: "Title Case a Sentence", description: "Write a Python function that takes a sentence as input and returns the sentence in title case (first letter of each word is capitalized).", code: `def title_case(sentence): \n  # Your code here` },
+  { id: 8, title: "Check if a Number is Prime", description: "Write a Python function that checks if a given positive integer is a prime number.", code: `def is_prime(n): \n  # Your code here` },
+  { id: 9, title: "Fibonacci Sequence", description: "Write a Python function that generates the first n numbers in the Fibonacci sequence and returns them as a list.", code: `def fibonacci(n): \n  # Your code here` },
+  { id: 10, title: "Anagram Checker", description: "Write a Python function that takes two strings as input and returns True if they are anagrams of each other.", code: `def are_anagrams(s1, s2): \n  # Your code here` },
+  { id: 11, title: "Find the Smallest Element in a List", description: "Write a Python function that takes a list of numbers and returns the smallest number.", code: `def find_smallest(numbers): \n  # Your code here` },
+  { id: 12, title: "Sum of List Elements", description: "Write a Python function that takes a list of numbers and returns the sum of all the elements.", code: `def sum_list(numbers): \n  # Your code here` },
+  { id: 13, title: "Average of List Elements", description: "Write a Python function that takes a list of numbers and returns the average of all the elements.", code: `def average_list(numbers): \n  # Your code here` },
+  { id: 14, title: "Reverse a List", description: "Write a Python function that takes a list and returns a new list with the elements in reverse order.", code: `def reverse_list(lst): \n  # Your code here` },
+  { id: 15, title: "Merge Two Sorted Lists", description: "Write a Python function that takes two sorted lists and merges them into a single sorted list.", code: `def merge_sorted_lists(list1, list2): \n  # Your code here` },
+  { id: 16, title: "Implement map() Functionality", description: "Write a Python function that mimics the behavior of the built-in `map()` function for lists.", code: `def custom_map(func, iterable): \n  # Your code here` },
+  { id: 17, title: "Implement filter() Functionality", description: "Write a Python function that mimics the behavior of the built-in `filter()` function for lists.", code: `def custom_filter(func, iterable): \n  # Your code here` },
+  { id: 18, title: "Implement reduce() Functionality", description: "Write a Python function that mimics the behavior of the `functools.reduce()` function for lists.", code: `def custom_reduce(func, iterable, initializer=None): \n  # Your code here` },
+  { id: 19, title: "Deep Copy a List", description: "Write a Python function that creates a deep copy of a given list (including nested lists).", code: `import copy\ndef deep_copy_list(lst): \n  # Your code here` },
+  { id: 20, title: "Debounce a Function (Conceptual)", description: "Describe how you would implement a debounce function in Python (conceptually, without writing full threading/asyncio code).", code: `# Conceptual description here` },
+  { id: 21, title: "Throttle a Function (Conceptual)", description: "Describe how you would implement a throttle function in Python (conceptually, without writing full threading/asyncio code).", code: `# Conceptual description here` },
+  { id: 22, title: "Implement all() Functionality", description: "Write a Python function that mimics the behavior of the built-in `all()` function for iterables.", code: `def custom_all(iterable): \n  # Your code here` },
+  { id: 23, title: "Implement any() Functionality", description: "Write a Python function that mimics the behavior of the built-in `any()` function for iterables.", code: `def custom_any(iterable): \n  # Your code here` },
+  { id: 24, title: "Find the Second Largest Element", description: "Write a Python function that takes a list of numbers and returns the second largest number.", code: `def find_second_largest(numbers): \n  # Your code here` },
+  { id: 25, title: "Check if All List Elements are Unique", description: "Write a Python function that checks if all elements in a list are unique.", code: `def are_all_unique(lst): \n  # Your code here` },
+  { id: 26, title: "Flatten a List of Lists", description: "Write a Python function that flattens a nested list (a list containing other lists) into a single-level list.", code: `def flatten_list(nested_list): \n  # Your code here` },
+  { id: 27, title: "Group List Elements", description: "Write a Python function that takes a list and a grouping criteria (e.g., a function) and returns a dictionary where the keys are the criteria and the values are lists of elements belonging to that group.", code: `def group_by(lst, key_func): \n  # Your code here` },
+  { id: 28, title: "Implement a Basic Calculator", description: "Write a Python function that takes two numbers and an operator (+, -, *, /) and performs the corresponding calculation.", code: `def calculate(num1, num2, operator): \n  # Your code here` },
+  { id: 29, title: "Check for Substring", description: "Write a Python function that checks if a given string contains another string as a substring.", code: `def contains_substring(text, pattern): \n  # Your code here` },
+  { id: 30, title: "Replace All Occurrences", description: "Write a Python function that takes a string, a substring to find, and a replacement string, and replaces all occurrences of the substring.", code: `def replace_all(text, old, new): \n  # Your code here` },
+  { id: 31, title: "Find the Longest Word in a Sentence", description: "Write a Python function that takes a sentence and returns the longest word in it.", code: `def find_longest_word(sentence): \n  # Your code here` },
+  { id: 32, title: "Count Words in a Sentence", description: "Write a Python function that takes a sentence and returns the number of words in it.", code: `def count_words(sentence): \n  # Your code here` },
+  { id: 33, title: "Generate Random Password", description: "Write a Python function that generates a random password of a specified length.", code: `import random\nimport string\ndef generate_password(length): \n  # Your code here` },
+  { id: 34, title: "Convert Celsius to Fahrenheit", description: "Write a Python function that converts a temperature from Celsius to Fahrenheit.", code: `def celsius_to_fahrenheit(celsius): \n  # Your code here` },
+  { id: 35, title: "Convert Fahrenheit to Celsius", description: "Write a Python function that converts a temperature from Fahrenheit to Celsius.", code: `def fahrenheit_to_celsius(fahrenheit): \n  # Your code here` },
+  { id: 36, title: "Check if Two Lists are Equal", description: "Write a Python function that checks if two lists are equal (contain the same elements in the same order).", code: `def are_lists_equal(list1, list2): \n  # Your code here` },
+  { id: 37, title: "Find the Intersection of Two Lists", description: "Write a Python function that finds the common elements (intersection) of two lists.", code: `def find_intersection(list1, list2): \n  # Your code here` },
+  { id: 38, title: "Find the Union of Two Lists", description: "Write a Python function that finds the union of two lists (all unique elements from both lists).", code: `def find_union(list1, list2): \n  # Your code here` },
+  { id: 39, title: "Implement a Simple Queue", description: "Implement a basic queue data structure in Python with `enqueue`, `dequeue`, and `is_empty` methods.", code: `class SimpleQueue:\n  def __init__(self):\n    # Your initialization\n  def enqueue(self, item):\n    # Your code here\n  def dequeue(self):\n    # Your code here\n  def is_empty(self):\n    # Your code here` },
+  { id: 40, title: "Implement a Simple Stack", description: "Implement a basic stack data structure in Python with `push`, `pop`, and `is_empty` methods.", code: `class SimpleStack:\n  def __init__(self):\n    # Your initialization\n  def push(self, item):\n    # Your code here\n  def pop(self):\n    # Your code here\n  def is_empty(self):\n    # Your code here` },
+  { id: 41, title: "Binary Search", description: "Implement the binary search algorithm in Python to find a specific element in a sorted list.", code: `def binary_search(lst, target): \n  # Your code here` },
+  { id: 42, title: "Linear Search", description: "Implement the linear search algorithm in Python to find a specific element in a list.", code: `def linear_search(lst, target): \n  # Your code here` },
+  { id: 43, title: "Sort a List (without using built-in sort)", description: "Implement a sorting algorithm (e.g., bubble sort, insertion sort) in Python to sort a list of numbers.", code: `def sort_list(numbers): \n  # Your code here` },
+  { id: 44, title: "Check if a String Starts with a Specific Prefix", description: "Write a Python function that checks if a given string starts with a specific prefix.", code: `def starts_with(text, prefix): \n  # Your code here` },
+  { id: 45, title: "Check if a String Ends with a Specific Suffix", description: "Write a Python function that checks if a given string ends with a specific suffix.", code: `def ends_with(text, suffix): \n  # Your code here` },
+  { id: 46, title: "Compose Functions", description: "Write a Python function `compose` that takes a series of functions and returns a new function that applies them from right to left.", code: `def compose(*funcs): \n  # Your code here` },
+  { id: 47, title: "Implement Curry Function", description: "Write a Python function that takes a function and returns its curried version.", code: `def curry(func): \n  # Your code here` },
+  { id: 48, title: "Find All Indices of an Element in a List", description: "Write a Python function that returns a list of all indices where a specific element can be found in a given list.", code: `def find_all_indices(lst, target): \n  # Your code here` },
+  { id: 49, title: "Check if One List is a Subset of Another", description: "Write a Python function that checks if all elements of one list are present in another list.", code: `def is_subset(list1, list2): \n  # Your code here` },
+  { id: 50, title: "Implement a Basic Generator", description: "Write a Python generator function that yields a sequence of numbers up to a given limit.", code: `def number_generator(limit): \n  # Your code here` },
+];
+
+router.get('/python/challenges', (req, res) => {
+  res.json(challenges);
+});
+
+module.exports = router;

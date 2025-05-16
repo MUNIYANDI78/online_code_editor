@@ -188,7 +188,16 @@ const Home = () => {
       <Navbar />
       <div className="flex items-center px-[100px] justify-between mt-5">
         <h3 className='text-2xl'>👋 Hi WELCOME!!!</h3>
+
         <div className="flex items-center">
+        <button
+  onClick={() => navigate("/frontend")}
+  className="bg-green-600 hover:bg-green-700 ml-4 text-sm px-3 py-1 rounded-md transition-all"
+>
+  Frontend Playground
+</button>
+
+
           <button onClick={() => { setIsCreateModelShow(true) }} className="btnNormal bg-blue-500 transition-all hover:bg-blue-600">Create Project</button>
         </div>
       </div>

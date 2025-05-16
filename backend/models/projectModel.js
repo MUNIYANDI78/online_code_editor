@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose'); // ✅ Add this line
 
 let projectSchema = new mongoose.Schema({
   name: {
@@ -8,7 +8,7 @@ let projectSchema = new mongoose.Schema({
   projLanguage: {
     type: String,
     required: true,
-    enum: ["python", "java", "javascript", "cpp", "c", "go", "bash"]
+    enum: ["python", "java", "javascript", "cpp", "c", "go", "bash", "html", "css"] // ✅ Added here
   },
   code: {
     type: String,

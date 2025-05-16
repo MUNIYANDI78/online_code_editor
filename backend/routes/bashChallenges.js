@@ -1,0 +1,61 @@
+  const express = require('express');
+  const router = express.Router();
+  
+  const challenges = [
+  { id: 1, title: "Print Current Directory", description: "Write a Bash command to print the absolute path of your current working directory.", code: `pwd` },
+  { id: 2, title: "List Files", description: "Write a Bash command to list all files and directories in the current directory (including hidden ones).", code: `ls -a` },
+  { id: 3, title: "Create a Directory", description: "Write a Bash command to create a new directory named 'my_new_directory'.", code: `mkdir my_new_directory` },
+  { id: 4, title: "Navigate to a Directory", description: "Write a Bash command to change your current directory to '/home/user/documents'.", code: `cd /home/user/documents` },
+  { id: 5, title: "Create an Empty File", description: "Write a Bash command to create an empty file named 'my_new_file.txt'.", code: `touch my_new_file.txt` },
+  { id: 6, title: "Print File Content", description: "Write a Bash command to display the content of a file named 'my_file.txt'.", code: `cat my_file.txt` },
+  { id: 7, title: "Copy a File", description: "Write a Bash command to copy the file 'source.txt' to 'destination.txt' in the current directory.", code: `cp source.txt destination.txt` },
+  { id: 8, title: "Move/Rename a File", description: "Write a Bash command to rename the file 'old_name.txt' to 'new_name.txt'.", code: `mv old_name.txt new_name.txt` },
+  { id: 9, title: "Delete a File", description: "Write a Bash command to delete the file 'unwanted_file.txt'.", code: `rm unwanted_file.txt` },
+  { id: 10, title: "Delete a Directory (empty)", description: "Write a Bash command to delete an empty directory named 'empty_directory'.", code: `rmdir empty_directory` },
+  { id: 11, title: "Delete a Directory (with content)", description: "Write a Bash command to delete a directory named 'full_directory' and all its contents.", code: `rm -rf full_directory` },
+  { id: 12, title: "Search for a File", description: "Write a Bash command to find all files named 'report.pdf' starting from the current directory.", code: `find . -name report.pdf` },
+  { id: 13, title: "Find Files Modified Today", description: "Write a Bash command to find all files in the current directory that were modified today.", code: `find . -mtime 0` },
+  { id: 14, title: "Grep for a String in a File", description: "Write a Bash command to find all lines in 'log.txt' that contain the string 'error'.", code: `grep 'error' log.txt` },
+  { id: 15, title: "Grep for a String (case-insensitive)", description: "Write a Bash command to find all lines in 'config.ini' that contain the string 'database' (case-insensitive).", code: `grep -i 'database' config.ini` },
+  { id: 16, title: "Pipe Output to Another Command", description: "Write a Bash command to list all files and directories and then pipe that output to a command that counts the number of lines.", code: `ls -l | wc -l` },
+  { id: 17, title: "Redirect Output to a File", description: "Write a Bash command to redirect the output of `ls -l` to a file named 'file_list.txt' (overwriting the file if it exists).", code: `ls -l > file_list.txt` },
+  { id: 18, title: "Append Output to a File", description: "Write a Bash command to append the output of `date` to the end of the file 'log.txt'.", code: `date >> log.txt` },
+  { id: 19, title: "Read Input from a File", description: "Write a Bash command to read the content of 'input.txt' and pass it as input to the `wc -w` command (word count).", code: `wc -w < input.txt` },
+  { id: 20, title: "Set an Environment Variable", description: "Write a Bash command to set an environment variable named 'MY_VARIABLE' with the value 'my_value'.", code: `export MY_VARIABLE='my_value'` },
+  { id: 21, title: "Print an Environment Variable", description: "Write a Bash command to print the value of the environment variable 'PATH'.", code: `echo $PATH` },
+  { id: 22, title: "Create a Simple Bash Script", description: "Write the first line of a Bash script that specifies the interpreter to be used.", code: `#!/bin/bash` },
+  { id: 23, title: "Make a Script Executable", description: "Write a Bash command to make the script 'my_script.sh' executable.", code: `chmod +x my_script.sh` },
+  { id: 24, title: "Run a Bash Script", description: "Write a Bash command to execute the script 'my_script.sh' located in the current directory.", code: `./my_script.sh` },
+  { id: 25, title: "Use a Variable in a Script", description: "Write a simple Bash script that assigns the string 'Hello' to a variable named 'greeting' and then prints the value of the variable.", code: `greeting='Hello'\necho $greeting` },
+  { id: 26, title: "Pass Arguments to a Script", description: "Write a Bash script that prints the first command-line argument passed to it.", code: `echo $1` },
+  { id: 27, title: "Use Conditional Logic (if)", description: "Write a Bash script that checks if a file named 'data.txt' exists and prints 'File exists' if it does.", code: `if [ -f data.txt ]; then\n  echo 'File exists'\nfi` },
+  { id: 28, title: "Use Conditional Logic (if-else)", description: "Write a Bash script that checks if a directory named 'backup' exists and prints 'Directory exists' if it does, otherwise prints 'Directory does not exist'.", code: `if [ -d backup ]; then\n  echo 'Directory exists'\nelse\n  echo 'Directory does not exist'\nfi` },
+  { id: 29, title: "Use a Loop (for)", description: "Write a Bash script that uses a `for` loop to print numbers from 1 to 5.", code: `for i in 1 2 3 4 5; do\n  echo $i\ndone` },
+  { id: 30, title: "Use a Loop (while)", description: "Write a Bash script that uses a `while` loop to count down from 5 to 1 and prints each number.", code: `count=5\nwhile [ $count -ge 1 ]; do\n  echo $count\n  count=$((count - 1))\ndone` },
+  { id: 31, title: "Read User Input", description: "Write a Bash script that prompts the user to enter their name and then prints 'Hello, [name]!'", code: `read -p 'Enter your name: ' name\necho "Hello, $name!"` },
+  { id: 32, title: "Get the Current Date and Time", description: "Write a Bash command to print the current date and time.", code: `date` },
+  { id: 33, title: "Extract a Specific Column from a File", description: "Assuming 'data.csv' has comma-separated values, write a Bash command to extract and print the second column.", code: `cut -d ',' -f 2 data.csv` },
+  { id: 34, title: "Sort Lines in a File", description: "Write a Bash command to sort the lines alphabetically in the file 'unsorted.txt' and print the sorted output.", code: `sort unsorted.txt` },
+  { id: 35, title: "Count the Number of Lines in a File", description: "Write a Bash command to count the number of lines in the file 'large_file.txt'.", code: `wc -l large_file.txt` },
+  { id: 36, title: "Find Processes by Name", description: "Write a Bash command to find all running processes that contain the name 'firefox'.", code: `ps aux | grep 'firefox'` },
+  { id: 37, title: "Kill a Process by PID", description: "Assuming you know the Process ID (PID) is 12345, write a Bash command to kill that process.", code: `kill 12345` },
+  { id: 38, title: "Create an Alias", description: "Write a Bash command to create an alias named 'll' that will execute the command 'ls -l'.", code: `alias ll='ls -l'` },
+  { id: 39, title: "Use Command Substitution", description: "Write a Bash command that prints the current date within a sentence (using command substitution).", code: `echo "The current date is $(date)"` },
+  { id: 40, title: "Work with Permissions (Read)", description: "Write a Bash command to add read permission for the owner to the file 'my_script.sh'.", code: `chmod u+r my_script.sh` },
+  { id: 41, title: "Work with Permissions (Execute)", description: "Write a Bash command to add execute permission for all users to the file 'my_other_script.sh'.", code: `chmod a+x my_other_script.sh` },
+  { id: 42, title: "Check Disk Space", description: "Write a Bash command to display the disk space usage of your file system.", code: `df -h` },
+  { id: 43, title: "Get System Uptime", description: "Write a Bash command to display how long the system has been running.", code: `uptime` },
+  { id: 44, title: "List Running Services (Systemd)", description: "Write a Bash command to list all running services on a system using systemd.", code: `systemctl list-units --type=service --state=running` },
+  { id: 45, title: "Basic Text Manipulation (sed - replace)", description: "Write a Bash command using `sed` to replace all occurrences of 'old' with 'new' in the file 'text.txt' and print the output.", code: `sed 's/old/new/g' text.txt` },
+  { id: 46, title: "Basic Text Manipulation (awk - print column)", description: "Assuming 'data.txt' has space-separated values, write a Bash command using `awk` to print the first column.", code: `awk '{print $1}' data.txt` },
+  { id: 47, title: "Create a Tar Archive", description: "Write a Bash command to create a tar archive named 'backup.tar' of the directory 'my_documents'.", code: `tar -cvf backup.tar my_documents` },
+  { id: 48, title: "Extract a Tar Archive", description: "Write a Bash command to extract the contents of 'backup.tar' into the current directory.", code: `tar -xvf backup.tar` },
+  { id: 49, title: "Use Exit Codes in a Script", description: "Write a simple Bash script that exits with a non-zero exit code to indicate an error.", code: `#!/bin/bash\necho 'An error occurred'\nexit 1` },
+  { id: 50, title: "Get the Hostname", description: "Write a Bash command to print the hostname of your system.", code: `hostname` },
+];
+  
+  router.get('/bash/challenges', (req, res) => {
+    res.json(challenges);
+  });
+  
+  module.exports = router;

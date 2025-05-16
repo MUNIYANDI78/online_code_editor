@@ -20,10 +20,15 @@ function getStartupCode(language) {
     return 'package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("Hello World")\n}';
   } else if (language.toLowerCase() === "bash") {
     return 'echo "Hello World"';
+  } else if (language.toLowerCase() === "html") {
+    return '<!DOCTYPE html>\n<html>\n<head>\n  <title>Hello</title>\n</head>\n<body>\n  <h1>Hello World</h1>\n</body>\n</html>';
+  } else if (language.toLowerCase() === "css") {
+    return 'body {\n  background-color: #f0f0f0;\n  font-family: Arial, sans-serif;\n  text-align: center;\n  margin-top: 50px;\n}';
   } else {
     return 'Language not supported';
   }
 }
+
 exports.signUp = async (req, res) => {
   try {
 

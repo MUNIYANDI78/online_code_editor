@@ -1,0 +1,40 @@
+// ✅ File: src/pages/CssChallenges.js
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Navbar from '../components/Navbar';
+
+const CssChallenges = () => {
+  const [challenges, setChallenges] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/learn/css/challenges')
+      .then((res) => setChallenges(res.data))
+      .catch((err) => console.error('Error fetching challenges:', err));
+  }, []);
+
+  return (
+    <div className='min-h-screen p-6 text-white bg-black'>
+      <Navbar/>
+      <h1 className='text-3xl font-bold mb-6 text-center'>💡 CSS Challenges</h1>
+      {challenges.length === 0 ? (
+        <p className='text-center'>Loading challenges...</p>
+      ) : (
+        <div className='space-y-6 max-w-4xl mx-auto'>
+          {challenges.map((challenge) => (
+            <div key={challenge.id} className='bg-gray-800 p-4 rounded shadow'>
+              <h2 className='text-xl font-semibold mb-2'>{challenge.title}</h2>
+              <p className='mb-2'>{challenge.description}</p>
+              {challenge.starterCode?.trim() !== '' && (
+                <pre className='bg-gray-900 p-2 rounded text-sm overflow-x-auto'>
+                  {challenge.starterCode}
+                </pre>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CssChallenges; // ✅ Must match the component name
